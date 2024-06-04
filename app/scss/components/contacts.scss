@@ -1,0 +1,45 @@
+// _contacts.scss
+
+.contacts {
+  @include hide-scrollbar;
+
+  .contacts-alphabet {
+    margin-top: 2rem;
+    font-weight: bold;
+    color: #6c757d; /* Use the text-muted color */
+  }
+
+  .hover-effect {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      background-color: #4545a5; /* Set the hover background color */
+    }
+
+    &:hover .contact-name {
+      color: #fbfbfb !important;
+    }
+
+    &:hover .text-secondary {
+      color: #efefef !important;
+    }
+  }
+
+  .contact-status {
+    font-size: 14px;
+  }
+
+  .contact-text {
+    padding: 1.5rem;
+  }
+
+  .mt-50 {
+    margin-top: 50px;
+  }
+
+  .mb-17 {
+    margin-bottom: 17px;
+  }
+}

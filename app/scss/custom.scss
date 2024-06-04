@@ -1,56 +1,131 @@
-/* Включение теней */
+:root {
+  --custom-margin: 88px;
+  --bs-text-opacity: 1;
+}
 
-$enable-shadows: true;
+.my-custom-5 {
+  margin-top: var(--custom-margin) !important;
+}
+
+.text-half-black {
+  opacity: var(--bs-text-opacity);
+  color: rgba(0, 0, 0, .5) !important;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+.text-hidden {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.bg-custom {
+  background-color:#efefef;
+}
+
+.rounded-top-left {
+  @include border-radius(10px 0 0 0);
+}
+
+.rounded-bottom {
+  @include border-radius(10px 10px 10px 10px);
+}
+
+.sidebar {
+  position: relative;
+  height: 100%;
+  overflow-y: auto;
+
+  .sidebar-header {
+    position: sticky;
+    bottom:0;
+  }
+}
+
+.ml-auto {
+  margin-left: auto !important;
+}
 
 
-$theme-colors: (
-	"primary":    #4545a5,
-	"secondary":  #6c757d,
-	"success":    #28a745,
-	"info":       #17a2b8,
-	"warning":    #ffc107,
-	"danger":     #dc3545,
-	"light":      #fbfbfb,
-	"dark":       #343a40,
-	"gray":       #efefef,
-  "header":     #4545a5
-);
-$border-color: #efefef;
+.width-and-height-50 {
+  width: 50px;
+  height: 50px;
+}
 
-/* Добавили новое значение в xxl */
+.fs-14 {
+  font-size: 14px;
+}
 
-$grid-breakpoints: (
-	xs: 0,
-	sm: 576px,
-	md: 768px,
-	lg: 992px,
-	xl: 1200px,
-	xxl: 1600px
-);
+.pe-40 {
+  padding-right: 40px;
+}
 
-/* Добавили новое значение в xxl */
+.icon-22 {
+  width: 22px;
+  height: 22px;
+}
 
-$container-max-widths: (
-	sm: 540px,
-	md: 720px,
-	lg: 960px,
-	xl: 1140px,
-	xxl: 1540px
-);
-$spacer: 1rem !default;
-$spacers: (
-	0: 0,
-	1: $spacer * 0.25,
-	2: $spacer * 0.5,
-	3: $spacer,
-	4: $spacer * 1.5,
-	5: $spacer * 3,
-	6: $spacer * 4,
-	7: $spacer * 4.5,
-	8: $spacer * 2.5,
-	9: $spacer * 3.5,
-	10: $spacer * 2,
-) !default;
-$nav-link-font-size: 14px;
-$nav-link-font-weight: 400;
-$search-message: 'Поиск по сообщениям';
+.minimize {
+  font-size: 0.875em;
+}
+
+.text-ninty {
+  opacity: var(--bs-text-opacity);
+  color: #212529 !important;
+}
+
+.scrollable-component {
+  @include hide-scrollbar();
+}
+
+.custom-placeholder {
+  &::placeholder {
+    font-size: 16px;
+    padding-left: 0;
+  }
+}
+
+.custom-shadow {
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.08));
+}
+
+.image-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (min-width: 767px) {
+  /* styles for xxl breakpoint */
+  .rounded-md-4 {
+    border-radius: var(--bs-border-radius-xl) !important;
+  }
+
+  .sidebar {
+    position: relative;
+    height: 100%;
+    overflow-y: auto;
+  
+    .sidebar-header {
+      position: sticky;
+      top:0;
+    }
+  }
+
+  .max-width-75 {
+    max-width: 75%;
+  }
+  
+}
+
+@media (min-width: 1600px) {
+  /* styles for xxl breakpoint */
+  .container-xxl {
+    max-width: 1540px;
+  }
+}

@@ -1,0 +1,16 @@
+include ./data-base/contacts-data.pug
+
+.px-4.contacts.mb-3
+  h2.fw-bold.mb-4 Контакты
+  form
+    input(type='search' class='p-4 form-control border border-top-0 border-start-0 border-end-0 shadow-none  custom-placeholder' placeholder='Поиск по контактам')
+    each value, key in contacts
+      p.mt-5.fs-6.text-muted.fw-light= key
+
+      each contact in value
+        .border-bottom.shadow-sm.costom-shadow.mb-4.border-start.border-end
+          a(href= contact.link).d-flex.hover-effect
+            img(src=contact.avatar, alt='avatar' class='rounded-circle' width="50" height="50").ms-3
+            .contact-text
+              p.h-4.fs-6.fw-bold.text-dark.m-0.contact-name= contact.name
+              p.contact-status.text-secondary.m-0= contact.status

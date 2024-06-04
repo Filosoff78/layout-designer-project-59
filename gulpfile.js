@@ -1,90 +1,97 @@
-/* const BrowserSync = require('browser-sync/dist/browser-sync'); */
-const { watch, parallel, src, dest } = require('gulp');
-/* const { require } = require('gulp-cli/lib/shared/cli-options'); */
-const sass = require('gulp-sass')(require('sass'));
-const pug = require('gulp-pug');
-const browserSync = require('browser-sync').create();
-/* const sassCompile =(done) => {
-  console.log('Comple SASS to CSS');
 
-  done();
+// Require dependencies
+const { src, dest, watch, series } = require('gulp');
+
+const pug          = require('gulp-pug');
+const sass         = require('gulp-sass')(require('sass'));
+const concat       = require('gulp-concat');
+const htmlmin      = require('gulp-htmlmin');
+const browserSync  = require('browser-sync').create();
+const autoprefixer = require('gulp-autoprefixer');
+const clean        = require('gulp-clean');
+const imagemin     = require('gulp-imagemin');
+const newer        = require('gulp-newer');
+const svgSprite    = require('gulp-svg-sprite');
+const surge        = require('gulp-surge');
+
+
+// Define tasks
+
+function images() {
+  return src('app/assets/**/*.jpg',)
+  .pipe(dest('build/assets'));
 };
 
-const pugCompile = (done) => {
-  console.log('Compile PUG to HTML');
-
-  done();
-};
-
-const ImagesOptimize = (done) => {
-  console.log('Optimize images');
-
-  done();
-};
-
-const Copyscss = () => {
-  return src(['src/sass/*scss', '!src/sass/file1.scss'])
-  .pipe(dest('build/styles'));
-};
-
-const changescssfiles = (done) => {
-  console.log('One of SCSS files was changed');
-
-  done();
+function sprite() {
+  return src('app/assets/**/*.svg')
+    .pipe(svgSprite({
+      mode: {
+        stack: {
+          sprite: '../sprite.svg',
+          example: true,
+          stack: false,
+          
+        }
+      }
+    }))
+    .pipe(dest('build/assets/'))
 }
 
-const changeFileStructure = (done) => {
-  console.log('One of src/ directory files was added or deleted');
-
-  done();
+function compilePug() {
+  return src('app/pug/*.pug')
+    .pipe(pug())
+    .pipe(dest('build/'))
+    .pipe(browserSync.stream())
 }
 
-const watchers = () => {
-  watch('src/sass/*.scss', { events: 'change' }, changescssfiles);
-
-  watch('src/', { events: ['unlink', 'add'] }, changeFileStructure);
+function compileSass() {
+  return src('app/scss/app.scss')
+    .pipe(autoprefixer({ overrideBrowserlist: ['last 10 version'] }))
+    .pipe(concat('style.min.css'))
+    .pipe(sass({ outputStyle: 'compressed'}))
+    .pipe(dest('build/css'))
+    .pipe(browserSync.stream())
 };
- */
 
-
-function browserSyncJob() {
+function watching(){
   browserSync.init({
-    server: 'build/'
+    server: {
+      baseDir: 'build/'
+    }
   });
-
-  watch('app/styles/**/*.scss', buildSass);
-  watch('app/**/*.pug', buildPug);
+  watch(['app/scss/app.scss'], compileSass)
+  watch(['app/images/src'], images)
+  watch(['app/pug/*.pug'], compilePug)
+  watch(['build/*.html']).on('change', browserSync.reload)
 }
 
-const buildSass = () => {
-  console.log('Компиляция SASS');
-
-  return src('app/styles/scss/app.scss')
-    .pipe(sass())
-    .pipe(dest('build/styles'))
-    .pipe(browserSync.stream());
+function cleanBuild() {
+  return src('build')
+    .pipe(clean())
 }
 
-const buildPug = () => {
-  console.log('Компиляция Pug');
-
-  return src('app/**/*.pug')
-    .pipe(pug({pretty: true}))
-    .pug(dest('build/'))
-    .pipe(browserSync.stream());
+function cleanOfStack() {
+  return src('build/assets/stack')
+    .pipe(clean())
 }
 
-/* const development = () => {
+function Surge() {
+  return surge({
+    project: './build',
+    domain: 'https://hexlet-chat-project-from-Zakir-Khunkaev.surge.sh'
+  });
+};
 
-} */
 
-/* exports.default = parallel(sassCompile, pugCompile, ImagesOptimize);
-exports.layoutCompile = parallel(sassCompile, pugCompile);
-exports.assetsOptimize = ImagesOptimize;
-exports.Copyscss = Copyscss;
-exports.watchers = watchers; */
-exports.server = browserSyncJob;
-exports.build = parallel(buildSass, buildPug);
-/* Для теста отдельно 2 функций */
-exports.sass = buildSass;
-exports.pug = buildPug;
+
+exports.compileSass = compileSass;
+exports.images = images;
+exports.sprite = sprite;
+exports.compilePug = compilePug;
+exports.watching = watching;
+exports.surge = Surge;
+exports.cleanBuild = cleanBuild;
+exports.cleanOfStack = cleanOfStack;
+
+exports.default = series(cleanBuild, compilePug, compileSass, images, sprite, cleanOfStack, watching);
+

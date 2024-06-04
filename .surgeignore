@@ -1,6 +1,4 @@
 /node_modules/
+Makefile
 package-lock.json
-
-/app/assets/stack/
-/app/css/
-
+package.json

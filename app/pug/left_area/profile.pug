@@ -1,0 +1,40 @@
+mixin svg-icon(name, width = '16', height = '16', fill = 'currentColor')
+  svg(class='icon', width=width, height=height)
+    use(xlink:href=`assets/sprite.svg#${name}`)
+    style.
+      .icon {
+        fill: #{fill};
+      }
+
+
+h2.fw-bold.mb-4 Профиль 
+form.mb-4
+  input(type='search' class='p-4 form-control border border-top-0 border-start-0 border-end-0 shadow-none  custom-placeholder' placeholder='Поиск по сообщениям')
+.card.border-0.pb-3.mb-3.align-items-center.my-custom-5.text-center
+  img(src='../../assets/images/avatar_1.jpg' alt="image of happy funny creature" width='90' height='90').rounded-circle
+  .card-body
+    p.fw-bold.mb-4 Кодовёнок Хекслетович
+    p.text-half-black Милый и скромный помощник начинающих разработчиков. Люблю JavaScript
+ul.list-group.list-group-flush.mx-3 
+  li.list-group-item.d-flex.align-items-center 
+    .me-auto 
+      p.mb-0.minimize.text-half-black Страна
+      p.mb-0.minimize Москва, Россия
+    +svg-icon('icons--globe_(1)', '16', '16', '#fbfbfb')
+  li.list-group-item.d-flex.align-items-center 
+    .me-auto 
+      p.mb-0.minimize.text-half-black Teлефон
+      p.mb-0.minimize +7 (499) 123-45-67
+    +svg-icon('icons--telephone', '16', '16', '#fbfbfb')
+  li.list-group-item.d-flex.align-items-center 
+    .me-auto 
+      p.mb-0.minimize.text-half-black Email
+      p.mb-0.minimize nikita.m@hexlet.io
+    +svg-icon('icons--envelope', '16', '16', '#fbfbfb')
+  li.list-group-item.d-flex.align-items-center 
+    .me-auto 
+      p.mb-0.minimize.text-half-black Twitter
+      p.mb-0.minimize @n_mikhaylov
+    .text-black-50
+      +svg-icon('icons--people-3', '16', '16', '#fbfbfb')
+
